@@ -1,3 +1,5 @@
+require_relative "./image"
+
 class Turtle
   class Pos
     attr_reader :x, :y
@@ -26,7 +28,20 @@ class Turtle
 
     @context.move_to(*@pos.canvas_coordinate)
 
+    @kame = Image.new
+    @kame.src = "/assets/images/kame.png"
     clear
+  end
+
+  def draw_kame
+    (x, y) = @pos.canvas_coordinate
+
+    c = Math.cos(@direction / 180 * Math::PI)
+    s = Math.sin(@direction / 180 * Math::PI)
+    transform = [c, s, -s, c, x - 10 * c + 10 * s, y - 10 * c - 10 * s] 
+    @context.set_transform(*transform)
+    @context.draw_image(@kame, 0, 0, 20, 20)
+    @context.set_transform(1, 0, 0, 1, 0, 0)
   end
 
   def exec(program)
@@ -34,6 +49,13 @@ class Turtle
     reset
     self.instance_eval program
     @context.stroke(@path)
+    if @kame.complete
+      draw_kame
+    else
+      @kame.onload do
+        draw_kame
+      end
+    end
   end
 
   def clear
