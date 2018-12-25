@@ -5,13 +5,28 @@ require_relative "views/canvas_view"
 require_relative "canvas"
 require_relative "turtle"
 
+=begin
+# n角形
+
+n = 5
+
+forward 100
+turn_left 90
+backword(Math::PI * 100 / n)
+
+pen_down
+n.times do
+  forward(Math::PI * 200 / n)
+  turn_left(360 / n)
+end
+=end
 
 class AppView
   include Hyalite::Component
 
   def initialize
     @program = <<~PROG
-      pendown
+      pen_down
       forward(100)
       turn_left(90)
       forward(100)
@@ -23,7 +38,7 @@ class AppView
   end
 
   def mounted(canvas)
-    @turtle = Turtle.new(canvas)
+    @turtle = Turtle.new(canvas, wait: 0.3)
     @turtle.exec @program
   end
 

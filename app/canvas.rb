@@ -24,6 +24,7 @@ class Canvas
     alias_native :move_to, :moveTo
     alias_native :stroke
     alias_native :stroke_style=, :strokeStyle=
+    alias_native :stroke_style, :strokeStyle
     alias_native :line_width=, :lineWidth=
     alias_native :draw_image, :drawImage
     alias_native :set_transform, :setTransform
