@@ -13,3 +13,6 @@ gem 'sqlite3'
 
 gem 'haml'
 gem 'sass'
+
+gem "opal-drb"
+gem "drb-websocket", path: "../drb-websocket"

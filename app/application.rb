@@ -1,5 +1,6 @@
 require 'hyalite'
 require "opal-parser"
+require "opal/drb"
 
 require_relative "views/canvas_view"
 require_relative "canvas"
@@ -40,6 +41,10 @@ class AppView
   def mounted(canvas)
     @turtle = Turtle.new(canvas, wait: 0.3)
     @turtle.exec @program
+
+    @remote = DRb::DRbObject.new_with_uri "ws://127.0.0.1:9292"
+    DRb.start_service("ws://127.0.0.1:9292/callback")
+    @remote.turtle = DRb::DRbObject.new(@turtle)
   end
 
   def exec

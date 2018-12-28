@@ -2,8 +2,10 @@ require 'bundler/setup'
 Bundler.require(:default)
 
 require 'menilite'
+require "drb/websocket"
 require 'sinatra/activerecord'
 
+require_relative "remote_object"
 require_relative 'server'
 Dir[File.expand_path('../app/models/', __FILE__) + '/**/*.rb'].each {|file| require(file) }
 Dir[File.expand_path('../app/controllers/', __FILE__) + '/**/*.rb'].each {|file| require(file) }
@@ -25,10 +27,5 @@ app = Rack::Builder.app do
   end
 end
 
-Rack::Server.start({
-  app:    app,
-  server: 'thin',
-  Host:   '0.0.0.0',
-  Port:   9292,
-  signals: false,
-})
+thin = Rack::Handler.get('thin')
+thin.run(DRb::WebSocket::RackApp.new(app), Host: "127.0.0.1", Port: 9292)
