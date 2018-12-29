@@ -32,6 +32,7 @@ class Server < Sinatra::Base
   end
 
   get '/' do
+    @enable_ws = true
     haml :index
   end
 

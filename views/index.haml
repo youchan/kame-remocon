@@ -2,8 +2,10 @@
 %html(lang="en" data-framework="hyalite")
   %head
     %link{rel:"stylesheet", href:"assets/css/application.css"}
+
+    :javascript
+      document.ws_enabled = #{@enable_ws}
   %body
     .content
 
     = ::Opal::Sprockets.javascript_include_tag('application', sprockets: settings.opal.sprockets, prefix: 'assets', debug: true)
-
