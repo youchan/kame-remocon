@@ -4,13 +4,9 @@ class TurtleProxy
   end
 
   def exec(&block)
-    reset_state
+    @turtle.clear
+    @turtle.reset
     self.instance_eval &block
-    @turtle.exec_commands
-  end
-
-  def reset_state
-    @turtle.reset_state
   end
 
   def clear

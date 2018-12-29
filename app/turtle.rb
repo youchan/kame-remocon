@@ -1,4 +1,5 @@
 require_relative "./image"
+require_relative "./commander"
 
 class Turtle
   class Pos
@@ -23,22 +24,33 @@ class Turtle
     @canvas = canvas
     @wait = wait
     @context = @canvas.get_context("2d");
-    reset_state
+    clear
+    reset
 
     @kame = Image.new
     @kame.src = "/assets/images/kame.png"
-
-    @commands = []
   end
 
-  def reset_state
-    @pen_down = false
-    @direction = 0
-    @path = Canvas::Path2D.new
-    @pos = Pos.new(0, 0)
-    @path.move_to(*@pos.canvas_coordinate)
-    @context.clear_rect(0, 0, @canvas.width, @canvas.height)
-    @context.stroke_style = "white"
+  def new_commander
+    methods = [:clear, :reset, :pen_up, :pen_down, :turn_left, :turn_right, :forward, :backward]
+    forwarder = Forwarder.new(self, *methods) do
+      @context.clear_rect(0, 0, @canvas.width, @canvas.height)
+      @context.stroke(@path)
+      draw_kame
+    end
+
+    DRb::DRbObject.new(Commander.new(forwarder))
+  end
+
+  class Forwarder
+    def initialize(obj, *methods, &hook)
+      methods.each do |name|
+        define_singleton_method(name) do |*args|
+          obj.method(name).call(*args)
+          hook.call
+        end
+      end
+    end
   end
 
   def draw_kame
@@ -53,32 +65,35 @@ class Turtle
   end
 
   def exec(program)
-    reset_state
-    self.instance_eval program
-    exec_commands
+    clear
+    reset
+    commander = Commander.new
+    commander.instance_eval program
+    exec_commands(commander.commands)
   end
 
-  def exec_commands
-    if @wait > 0
+  def exec_commands(commands, wait: nil)
+    wait ||= @wait
+    if wait > 0
       exec = Proc.new do
-        if @commands.length == 0
+        if commands.length == 0
           false
         else
-          exec_command(@commands.shift)
+          exec_command(commands.shift)
           @context.clear_rect(0, 0, @canvas.width, @canvas.height)
           @context.stroke(@path)
           draw_kame
           true
         end
       end
-      interval = @wait * 1000
+      interval = wait * 1000
       %x(
         var timer = setInterval(function() {
           if (!exec()) { clearInterval(timer); }
         }, interval);
       )
     else
-      @commands.each(&self.method(:exec_command))
+      commands.each(&self.method(:exec_command))
       @context.stroke(@path)
       if @kame.complete
         draw_kame
@@ -91,66 +106,54 @@ class Turtle
   end
 
   def exec_command(command)
-    case command.shift
-    when :clear
-      @context.clear_rect(0, 0, @canvas.width, @canvas.height)
-      @path = Canvas::Path2D.new
-    when :reset
-      @direction = 0
-      @pos = Pos.new(0, 0)
-      @context.move_to(*@pos.canvas_coordinate)
-      @context.stroke_style = "white"
-    when :turn_left
-      digree = command.first
-      @direction = (@direction - digree) % 360
-    when :turn_right
-      digree = command.first
-      @direction = (@direction + digree) % 360
-    when :pen_down
-      @pen_down = true
-    when :pen_up
-      @pen_down = false
-    when :forward
-      dist = command.first
-      @pos = position_to(dist)
-      if @pen_down
-        @path.line_to(*@pos.canvas_coordinate)
-      else
-        @path.move_to(*@pos.canvas_coordinate)
-      end
-    end
+    self.method(command.first).call(*command[1..-1])
+    nil
   end
 
   def clear
-    @commands << [:clear]
+    @context.clear_rect(0, 0, @canvas.width, @canvas.height)
+    @path = Canvas::Path2D.new
+    nil
   end
 
   def reset
-    @commands << [:reset]
+    @pen_down = false
+    @direction = 0
+    @pos = Pos.new(0, 0)
+    @path.move_to(*@pos.canvas_coordinate)
+    @context.move_to(*@pos.canvas_coordinate)
+    @context.stroke_style = "white"
+    nil
   end
 
   def turn_left(digree)
-    @commands << [:turn_left, digree]
+    @direction = (@direction - digree) % 360
+    nil
   end
 
   def turn_right(digree)
-    @commands << [:turn_right, digree]
+    @direction = (@direction + digree) % 360
+    nil
   end
 
   def pen_down
-    @commands << [:pen_down]
+    @pen_down = true
+    nil
   end
 
   def pen_up
-    @commands << [:pen_up]
+    @pen_down = false
+    nil
   end
 
   def forward(dist)
-    @commands << [:forward, dist]
-  end
-
-  def backward(dist)
-    @commands << [:forward, -dist]
+    @pos = position_to(dist)
+    if @pen_down
+      @path.line_to(*@pos.canvas_coordinate)
+    else
+      @path.move_to(*@pos.canvas_coordinate)
+    end
+    nil
   end
 
   def position_to(dist)

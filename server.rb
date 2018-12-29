@@ -35,27 +35,21 @@ class Server < Sinatra::Base
     haml :index
   end
 
-  get "/circle" do
-    turtle = settings.remote_object.proxy
-    if turtle
-      EM.defer do
-        turtle.exec do
-          n = 5
+  get "/polygon/:n" do
+    n = params["n"].to_i
 
-          forward 100
-          turn_left 90
-          backward(Math::PI * 100 / n)
+    EM.defer do
+      settings.remote_object.exec_bulk do
+        forward 100
+        turn_left 90
+        backward(Math::PI * 100 / n)
 
-          pen_down
-          n.times do
-            forward(Math::PI * 200 / n)
-            turn_left(360 / n)
-          end
+        pen_down
+        n.times do
+          forward(Math::PI * 200 / n)
+          turn_left(360 / n)
         end
       end
-      "ok"
-    else
-      "ng"
     end
   end
 

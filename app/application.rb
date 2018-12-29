@@ -44,7 +44,7 @@ class AppView
 
     @remote = DRb::DRbObject.new_with_uri "ws://127.0.0.1:9292"
     DRb.start_service("ws://127.0.0.1:9292/callback")
-    @remote.turtle = DRb::DRbObject.new(@turtle)
+    @remote.set_turtle DRb::DRbObject.new(@turtle)
   end
 
   def exec
