@@ -1,4 +1,4 @@
-# 亀甲(Turtle graphics)
+# 亀リモコン(Turtle graphics)
 
 ## これはなに？
 
