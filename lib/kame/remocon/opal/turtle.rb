@@ -1,5 +1,6 @@
+require "kame/remocon/commander"
+
 require_relative "./image"
-require_relative "./commander"
 
 class Turtle
   class Pos

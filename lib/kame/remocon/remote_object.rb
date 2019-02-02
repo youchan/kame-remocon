@@ -1,4 +1,4 @@
-require_relative "app/commander"
+require_relative "commander"
 
 class RemoteObject
   def set_turtle(turtle)
