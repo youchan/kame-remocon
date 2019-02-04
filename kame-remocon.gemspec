@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["youchan01@gmail.com"]
 
   spec.summary       = %q{Turtle Graphics}
-  spec.description   = %q{This is a remote controller to command for the turle draw graphics.}
+  spec.description   = %q{This is a remote controller to command for the turtle draw graphics.}
   spec.homepage      = "https://github.com/youchan/kame-remocon"
   spec.license       = "MIT"
 
