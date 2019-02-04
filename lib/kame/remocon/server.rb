@@ -56,6 +56,13 @@ class Kame::Remocon::Server < Sinatra::Base
     end
   end
 
+  post "/exec" do
+    body = request.body.read
+    EM.defer do
+      settings.remote_object.exec_bulk body
+    end
+  end
+
   get "/favicon.ico" do
   end
 end

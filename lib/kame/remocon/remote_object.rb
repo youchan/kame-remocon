@@ -6,21 +6,29 @@ class RemoteObject
     nil
   end
 
-  def exec(&block)
+  def exec(str = nil, &block)
     if @turtle
       @turtle.clear
       @turtle.reset
       commander = @turtle.new_commander
-      commander.instance_eval &block
+      if str
+        commander.instance_eval str
+      elsif block
+        commander.instance_eval &block
+      end
     end
   end
 
-  def exec_bulk(&block)
+  def exec_bulk(str = nil, &block)
     if @turtle
       @turtle.clear
       @turtle.reset
       commander = Commander.new
-      commander.instance_eval &block
+      if str
+        commander.instance_eval str
+      elsif block
+        commander.instance_eval &block
+      end
       @turtle.exec_commands(commander.commands, wait: 0)
     end
   end

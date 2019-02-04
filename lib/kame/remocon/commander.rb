@@ -11,7 +11,6 @@ class Commander
 
   def <<(command)
     if @forward
-      puts ">>>>>>>>>> command: #{command}"
       @forward.method(command.first).call(*command[1..-1])
     else
       @commands << command
