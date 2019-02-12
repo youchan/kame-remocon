@@ -48,4 +48,8 @@ class Commander
   def backward(dist)
     self << [:forward, -dist]
   end
+
+  def move_to(x, y)
+    self << [:move_to, x, y]
+  end
 end

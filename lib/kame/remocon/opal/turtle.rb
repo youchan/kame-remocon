@@ -149,12 +149,22 @@ class Turtle
 
   def forward(dist)
     @pos = position_to(dist)
+    move
+    nil
+  end
+
+  def move_to(x, y)
+    @pos = Pos.new(x, y)
+    move
+    nil
+  end
+
+  def move
     if @pen_down
       @path.line_to(*@pos.canvas_coordinate)
     else
       @path.move_to(*@pos.canvas_coordinate)
     end
-    nil
   end
 
   def position_to(dist)

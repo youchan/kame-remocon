@@ -23,13 +23,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'sinatra'
-  spec.add_dependency 'sinatra-contrib'
   spec.add_dependency 'thin'
   spec.add_dependency 'opal-haml'
   spec.add_dependency 'hyalite'
-  spec.add_dependency 'menilite'
   spec.add_dependency 'rake'
-  spec.add_dependency 'sqlite3'
   spec.add_dependency 'haml'
   spec.add_dependency 'sassc'
   spec.add_dependency "opal-drb"

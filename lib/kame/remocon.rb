@@ -1,8 +1,6 @@
 require_relative "remocon/version"
 
-require "menilite"
 require "drb/websocket"
-require "sinatra/activerecord"
 require "launchy"
 
 require_relative "remocon/remote_object"
@@ -32,11 +30,6 @@ module Kame
         map '/assets' do
           run Kame::Remocon::Server::OPAL.sprockets
         end
-
-        map '/api' do
-          router = Menilite::Router.new
-          run router.routes(server.settings)
-        end
       end
 
       Thread.new do
@@ -53,6 +46,7 @@ module Kame
       end
 
       @remote_object = remote_object
+      @remote_object.turtle
     end
   end
 end

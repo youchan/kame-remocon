@@ -40,4 +40,8 @@ class TurtleProxy
   def backward(dist)
     @turtle.backward(dist)
   end
+
+  def move_to(x,y)
+    @turtle.move_to(x, y)
+  end
 end

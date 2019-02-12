@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'opal'
 require 'opal/sprockets'
-require 'sinatra/activerecord'
 
 # if development?
   # require 'sinatra/reloader'
@@ -14,7 +13,6 @@ class Kame::Remocon::Server < Sinatra::Base
     #server.append_path File.expand_path("../../../", __FILE__)
     Opal.use_gem 'hyalite'
     Opal.use_gem "opal-drb"
-    Opal.use_gem 'menilite'
     Opal.use_gem 'kame-remocon'
     Opal.paths.each {|path| server.append_path path }
 

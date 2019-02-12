@@ -1,6 +1,8 @@
 require_relative "commander"
 
 class RemoteObject
+  attr_reader :turtle
+
   def set_turtle(turtle)
     @turtle = turtle
     nil

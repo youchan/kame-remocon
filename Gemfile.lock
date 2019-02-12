@@ -5,33 +5,20 @@ PATH
       drb-websocket
       haml
       hyalite
-      menilite
+      launchy
       opal-drb
       opal-haml
       rake
       sassc
       sinatra
-      sinatra-contrib
-      sqlite3
       thin
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.2.2)
-      activesupport (= 5.2.2)
-    activerecord (5.2.2)
-      activemodel (= 5.2.2)
-      activesupport (= 5.2.2)
-      arel (>= 9.0)
-    activesupport (5.2.2)
-      concurrent-ruby (~> 1.0, >= 1.0.2)
-      i18n (>= 0.7, < 2)
-      minitest (~> 5.1)
-      tzinfo (~> 1.1)
-    arel (9.0.0)
+    addressable (2.6.0)
+      public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    backports (3.11.4)
     concurrent-ruby (1.1.4)
     daemons (1.3.1)
     drb-websocket (0.5.1)
@@ -49,13 +36,8 @@ GEM
     hike (1.2.3)
     hyalite (0.2.8)
       opal
-    i18n (1.5.3)
-      concurrent-ruby (~> 1.0)
-    menilite (0.5.3)
-      opal
-      sinatra-activerecord
-    minitest (5.11.3)
-    multi_json (1.13.1)
+    launchy (2.4.3)
+      addressable (~> 2.3)
     mustermann (1.0.3)
     opal (0.11.4)
       ast (>= 2.3.0)
@@ -74,6 +56,7 @@ GEM
       tilt (>= 1.4)
     parser (2.3.3.1)
       ast (~> 2.2)
+    public_suffix (3.0.3)
     rack (2.0.6)
     rack-protection (2.0.5)
       rack
@@ -86,30 +69,16 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.5)
       tilt (~> 2.0)
-    sinatra-activerecord (2.0.13)
-      activerecord (>= 3.2)
-      sinatra (>= 1.0)
-    sinatra-contrib (2.0.5)
-      backports (>= 2.8.2)
-      multi_json
-      mustermann (~> 1.0)
-      rack-protection (= 2.0.5)
-      sinatra (= 2.0.5)
-      tilt (>= 1.3, < 3)
     sourcemap (0.1.1)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sqlite3 (1.3.13)
     temple (0.8.0)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
       rack (>= 1, < 3)
-    thread_safe (0.3.6)
     tilt (2.0.9)
-    tzinfo (1.2.5)
-      thread_safe (~> 0.1)
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)

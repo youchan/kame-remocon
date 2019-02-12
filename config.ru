@@ -3,7 +3,6 @@ Bundler.require(:default)
 
 require 'menilite'
 require "drb/websocket"
-require 'sinatra/activerecord'
 
 require_relative "remote_object"
 require_relative 'server'
@@ -19,11 +18,6 @@ app = Rack::Builder.app do
 
   map '/assets' do
     run Server::OPAL.sprockets
-  end
-
-  map '/api' do
-    router = Menilite::Router.new
-    run router.routes(server.settings)
   end
 end
 
