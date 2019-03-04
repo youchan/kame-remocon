@@ -1,6 +1,8 @@
 class Commander
   attr_reader :commands
 
+  METHODS = [:clear, :reset, :pen_up, :pen_down, :turn_left, :turn_right, :forward, :backward, :move_to]
+
   def initialize(forward = nil)
     if forward
       @forward = forward

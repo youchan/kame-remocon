@@ -6,16 +6,13 @@ require "launchy"
 require_relative "remocon/remote_object"
 require_relative "remocon/server"
 
-Dir[File.expand_path('../app/models/', __FILE__) + '/**/*.rb'].each {|file| require(file) }
-Dir[File.expand_path('../app/controllers/', __FILE__) + '/**/*.rb'].each {|file| require(file) }
-
 module Kame
   module Remocon
     class Error < StandardError; end
   end
 
   module App
-    def self.start
+    def self.start(context=nil)
       remote_object = nil
 
       app = Rack::Builder.app do
@@ -46,7 +43,27 @@ module Kame
       end
 
       @remote_object = remote_object
-      @remote_object.turtle
+
+      print "Waiting for the client is up"
+
+      100.times do
+        if @remote_object.turtle
+          puts
+          commander = @remote_object.turtle.new_commander
+
+          if context
+            Commander::METHODS.each do |name|
+              context.define_singleton_method(name) do |*args|
+                commander.method_missing(name, *args)
+              end
+            end
+          end
+          
+          break commander
+        end
+        print "."
+        sleep(1)
+      end
     end
   end
 end

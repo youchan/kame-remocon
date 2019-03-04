@@ -33,8 +33,7 @@ class Turtle
   end
 
   def new_commander
-    methods = [:clear, :reset, :pen_up, :pen_down, :turn_left, :turn_right, :forward, :backward]
-    forwarder = Forwarder.new(self, *methods) do
+    forwarder = Forwarder.new(self, *Commander::METHODS) do
       @context.clear_rect(0, 0, @canvas.width, @canvas.height)
       @context.stroke(@path)
       draw_kame
