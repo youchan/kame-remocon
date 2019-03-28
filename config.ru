@@ -1,23 +1,22 @@
 require 'bundler/setup'
 Bundler.require(:default)
 
-require 'menilite'
 require "drb/websocket"
 
-require_relative "remote_object"
-require_relative 'server'
-Dir[File.expand_path('../app/models/', __FILE__) + '/**/*.rb'].each {|file| require(file) }
-Dir[File.expand_path('../app/controllers/', __FILE__) + '/**/*.rb'].each {|file| require(file) }
+#require_relative "lib/kame/remocon/remote_object"
+require_relative "lib/kame/remocon/server"
+#Dir[File.expand_path('../app/models/', __FILE__) + '/**/*.rb'].each {|file| require(file) }
+#Dir[File.expand_path('../app/controllers/', __FILE__) + '/**/*.rb'].each {|file| require(file) }
 
 app = Rack::Builder.app do
-  server = Server.new(host: 'localhost')
+  server = Kame::Remocon::Server.new(host: 'localhost')
 
   map '/' do
     run server
   end
 
   map '/assets' do
-    run Server::OPAL.sprockets
+    run Kame::Remocon::Server::OPAL.sprockets
   end
 end
 

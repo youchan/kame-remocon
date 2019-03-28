@@ -40,7 +40,7 @@ class AppView
   end
 
   def mounted(canvas)
-    @turtle = Turtle.new(canvas, wait: 0.3)
+    @turtle = Turtle.new(canvas)
     @turtle.exec @program
 
     if Config.ws_enabled?
@@ -52,7 +52,8 @@ class AppView
 
   def exec
     @program = @refs[:program].value
-    @turtle.exec @program
+    wait = @refs[:wait][:checked] ? 0.3 : 0
+    @turtle.exec @program, wait
   end
 
   def render
@@ -61,6 +62,8 @@ class AppView
       h2(nil, 'タートルグラフィックスに挑戦！！')
       CanvasView.el(onMounted: -> canvas { mounted(canvas) })
       textarea({style: {width: "400px", height: "200px"}, ref: :program}, program)
+      input({type: :checkbox, checked: true, id: :wait, ref: :wait})
+      label({for: :wait}, "描く過程を表示する")
       button({onClick: -> { exec() }, name: "exec"}, "Exec")
     end
   end

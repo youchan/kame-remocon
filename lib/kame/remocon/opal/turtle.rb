@@ -64,12 +64,12 @@ class Turtle
     @context.set_transform(1, 0, 0, 1, 0, 0)
   end
 
-  def exec(program)
+  def exec(program, wait=0)
     clear
     reset
     commander = Commander.new
     commander.instance_eval program
-    exec_commands(commander.commands)
+    exec_commands(commander.commands, wait: wait)
   end
 
   def exec_commands(commands, wait: nil)
