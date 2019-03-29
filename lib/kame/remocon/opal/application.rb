@@ -29,13 +29,13 @@ class AppView
   def initialize
     @program = <<~PROG
       pen_down
-      forward(100)
-      turn_left(90)
-      forward(100)
-      turn_left(90)
-      forward(100)
-      turn_left(90)
-      forward(100)
+      forward 100
+      turn_left 90
+      forward 100
+      turn_left 90
+      forward 100
+      turn_left 90
+      forward 100
     PROG
   end
 
