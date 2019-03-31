@@ -19,10 +19,12 @@ class CanvasView
       image = create_image
     end
 
+    bg_color = @props[:bg_color]
+
     div do
-      canvas(width: "400", height: "400", id: :canvas, ref: :canvas, style: {"background-color": :black})
+      canvas(width: "400", height: "400", id: :canvas, ref: :canvas, style: {"background-color": bg_color})
       if image
-        img(src: image, style: {"background-color": :black})
+        img(src: image, style: {"background-color": bg_color})
       end
     end
   end

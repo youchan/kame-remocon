@@ -3,6 +3,8 @@ require "kame/remocon/commander"
 require_relative "./image"
 
 class Turtle
+  attr_accessor :default_color
+
   class Pos
     attr_reader :x, :y
 
@@ -21,9 +23,10 @@ class Turtle
     end
   end
 
-  def initialize(canvas, wait: 0)
+  def initialize(canvas, wait: 0, default_color: "white")
     @canvas = canvas
     @wait = wait
+    @default_color = default_color
     @context = @canvas.get_context("2d");
     clear
     reset
@@ -35,7 +38,10 @@ class Turtle
   def new_commander
     forwarder = Forwarder.new(self, *Commander::METHODS) do
       @context.clear_rect(0, 0, @canvas.width, @canvas.height)
-      @context.stroke(@path)
+      @paths.each do |path, color|
+        @context.stroke_style = color
+        @context.stroke(path)
+      end
       draw_kame
     end
 
@@ -58,7 +64,7 @@ class Turtle
 
     c = Math.cos(@direction / 180 * Math::PI)
     s = Math.sin(@direction / 180 * Math::PI)
-    transform = [c, s, -s, c, x - 10 * c + 10 * s, y - 10 * c - 10 * s] 
+    transform = [c, s, -s, c, x - 10 * c + 10 * s, y - 10 * c - 10 * s]
     @context.set_transform(*transform)
     @context.draw_image(@kame, 0, 0, 20, 20)
     @context.set_transform(1, 0, 0, 1, 0, 0)
@@ -81,7 +87,10 @@ class Turtle
         else
           exec_command(commands.shift)
           @context.clear_rect(0, 0, @canvas.width, @canvas.height)
-          @context.stroke(@path)
+          @paths.each do |path, color|
+            @context.stroke_style = color
+            @context.stroke(path)
+          end
           draw_kame
           true
         end
@@ -94,7 +103,10 @@ class Turtle
       )
     else
       commands.each(&self.method(:exec_command))
-      @context.stroke(@path)
+      @paths.each do |path, color|
+        @context.stroke_style = color
+        @context.stroke(path)
+      end
       if @kame.complete
         draw_kame
       else
@@ -113,6 +125,7 @@ class Turtle
   def clear
     @context.clear_rect(0, 0, @canvas.width, @canvas.height)
     @path = Canvas::Path2D.new
+    @paths = [[@path, @default_color]]
     nil
   end
 
@@ -122,7 +135,6 @@ class Turtle
     @pos = Pos.new(0, 0)
     @path.move_to(*@pos.canvas_coordinate)
     @context.move_to(*@pos.canvas_coordinate)
-    @context.stroke_style = "white"
     nil
   end
 
@@ -143,6 +155,13 @@ class Turtle
 
   def pen_up
     @pen_down = false
+    nil
+  end
+
+  def color(color)
+    @path = Canvas::Path2D.new
+    @path.move_to(*@pos.canvas_coordinate)
+    @paths << [@path, color]
     nil
   end
 

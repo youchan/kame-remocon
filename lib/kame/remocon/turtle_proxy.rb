@@ -33,6 +33,10 @@ class TurtleProxy
     @turtle.pen_up
   end
 
+  def color(color)
+    @turtle.color(color)
+  end
+
   def forward(dist)
     @turtle.forward(dist)
   end

@@ -1,7 +1,7 @@
 class Commander
   attr_reader :commands
 
-  METHODS = [:clear, :reset, :pen_up, :pen_down, :turn_left, :turn_right, :forward, :backward, :move_to]
+  METHODS = [:clear, :reset, :pen_up, :pen_down, :color, :turn_left, :turn_right, :forward, :backward, :move_to]
 
   def initialize(forward = nil)
     if forward
@@ -41,6 +41,10 @@ class Commander
 
   def pen_up
     self << [:pen_up]
+  end
+
+  def color(color)
+    self << [:color, color]
   end
 
   def forward(dist)

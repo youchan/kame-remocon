@@ -27,6 +27,7 @@ class AppView
   include Hyalite::Component
 
   state :render_image, false
+  state :bg_color, "black"
 
   def initialize
     @program = <<~PROG
@@ -62,16 +63,25 @@ class AppView
     set_state(render_image: true)
   end
 
+  def set_background
+    bg_color = @refs[:bg_color][:checked]
+    @turtle.default_color = bg_color ? "white" : "black"
+    set_state(bg_color: bg_color ? "black" : "white")
+  end
+
   def render
     program = @program
     render_image = @state[:render_image]
+    bg_color = @state[:bg_color]
     div do
       h2(nil, 'タートルグラフィックスに挑戦！！')
-      CanvasView.el(onMounted: -> canvas { mounted(canvas) }, render_image: render_image)
+      CanvasView.el(onMounted: -> canvas { mounted(canvas) }, render_image: render_image, bg_color: bg_color)
       textarea({style: {width: "400px", height: "200px"}, ref: :program}, program)
       input({type: :checkbox, checked: true, id: :wait, ref: :wait})
       label({for: :wait}, "描く過程を表示する")
-      button({onClick: -> { exec }, name: "exec"}, "Exec")
+      input({type: :checkbox, checked: true, id: :bg_color, ref: :bg_color, onClick: -> {set_background}})
+      label({for: :bg_color}, "黒背景")
+      button({onClick: -> { exec }, name: "exec"}, "実行する")
       button({onClick: -> { create_image }, name: "create_image"}, "画像を作成")
     end
   end
