@@ -8,8 +8,8 @@ require 'opal/sprockets'
 
 class Kame::Remocon::Server < Sinatra::Base
   OPAL = Opal::Sprockets::Server.new do |server|
-    server.append_path File.expand_path("../opal", __FILE__)
-    server.append_path File.expand_path("../assets", __FILE__)
+    server.append_path File.expand_path("../../../opal", __FILE__)
+    server.append_path File.expand_path("../../../assets", __FILE__)
     #server.append_path File.expand_path("../../../", __FILE__)
     Opal.use_gem 'hyalite'
     Opal.use_gem "opal-drb"
