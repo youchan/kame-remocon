@@ -8,8 +8,8 @@ require 'opal/sprockets'
 
 class Kame::Remocon::Server < Sinatra::Base
   OPAL = Opal::Sprockets::Server.new do |server|
-    server.append_path File.expand_path("../../../opal", __FILE__)
-    server.append_path File.expand_path("../../../assets", __FILE__)
+    server.append_path File.expand_path("../opal", __FILE__)
+    server.append_path File.expand_path("../assets", __FILE__)
     #server.append_path File.expand_path("../../../", __FILE__)
     Opal.use_gem 'hyalite'
     Opal.use_gem "opal-drb"
@@ -26,6 +26,7 @@ class Kame::Remocon::Server < Sinatra::Base
 
     remote_object = RemoteObject.new
     set :remote_object, remote_object
+    set :views, File.expand_path("../../../views", __FILE__)
 
     DRb::WebSocket::RackApp.config.use_rack = true
     DRb.start_service("ws://127.0.0.1:9292", remote_object)
