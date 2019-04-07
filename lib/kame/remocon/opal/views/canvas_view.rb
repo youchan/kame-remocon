@@ -1,4 +1,4 @@
-class CanvasView
+class Kame::Remocon::Opal::CanvasView
   include Hyalite::Component
 
   def create_image
@@ -8,7 +8,7 @@ class CanvasView
 
   def component_did_mount
     el = @refs[:canvas]
-    @canvas = Canvas.new(el.native)
+    @canvas = Kame::Remocon::Opal::Canvas.new(el.native)
 
     @props[:onMounted].call(@canvas)
   end

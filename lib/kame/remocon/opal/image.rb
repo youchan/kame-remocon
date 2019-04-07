@@ -1,4 +1,4 @@
-class Image
+class Kame::Remocon::Opal::Image
   include Native
   include Native::Helpers
 

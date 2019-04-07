@@ -2,7 +2,7 @@ require "kame/remocon/commander"
 
 require_relative "./image"
 
-class Turtle
+class Kame::Remocon::Opal::Turtle
   attr_accessor :default_color
 
   class Pos
@@ -31,7 +31,7 @@ class Turtle
     clear
     reset
 
-    @kame = Image.new
+    @kame = Kame::Remocon::Opal::Image.new
     @kame.src = "/assets/images/kame.png"
   end
 
@@ -124,7 +124,7 @@ class Turtle
 
   def clear
     @context.clear_rect(0, 0, @canvas.width, @canvas.height)
-    @path = Canvas::Path2D.new
+    @path = Kame::Remocon::Opal::Canvas::Path2D.new
     @paths = [[@path, @default_color]]
     nil
   end

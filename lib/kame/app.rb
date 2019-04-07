@@ -1,7 +1,8 @@
+require_relative "remocon/server"
+
 module Kame
   module App
     def self.start(context=nil)
-      require_relative "remocon/server"
 
       remote_object = nil
 

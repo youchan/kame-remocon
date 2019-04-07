@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "hyalite", "~> 0.3"
   spec.add_dependency "rake", "~> 12.3"
   spec.add_dependency "haml", "~> 5.0"
-  spec.add_dependency "sassc", "~> 2.0"
+  spec.add_dependency "sass", "~> 3.7"
   spec.add_dependency "opal-drb", "~> 0.4"
   spec.add_dependency "drb-websocket", "~> 0.5"
   spec.add_dependency "launchy", "~> 2.4"

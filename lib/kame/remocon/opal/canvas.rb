@@ -1,6 +1,6 @@
 require "native"
 
-class Canvas
+class Kame::Remocon::Opal::Canvas
   include Native
 
   native_accessor :width, :height
