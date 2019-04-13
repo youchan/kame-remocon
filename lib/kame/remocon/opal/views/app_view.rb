@@ -66,7 +66,6 @@ class Kame::Remocon::Opal::AppView
     bg_color = @state[:bg_color]
 
     div do
-      h2(nil, "タートルグラフィックスに挑戦！！")
       div do
         Kame::Remocon::Opal::CanvasView.el(onMounted: -> canvas { mounted(canvas) }, render_image: render_image, bg_color: bg_color)
         div({class: "wrap-code-text"}, textarea({style: {width: "400px", height: "400px"}, ref: :program}, program))
