@@ -1,0 +1,54 @@
+body {
+  background-color: #f0f4f8;
+}
+
+.content {
+  margin: 0 auto;
+  width: 824px;
+}
+
+.wrap-canvas {
+  display: inline-block;
+  float: left;
+}
+
+.wrap-canvas canvas {
+  width: 400px;
+  height: 400px;
+}
+
+.wrap-code-text {
+  width: 400px;
+  height: 400px;
+  display: inline-block;
+  margin-left: 24px;
+}
+
+.wrap-code-text textarea {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.exec-button {
+  text-align: right;
+  width: 100%;
+}
+
+.exec-button button {
+  width: 200px;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  padding: 8px 0 10px;
+  color: #fff;
+  background-color: #49a9d4;
+  border-radius: 5px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 1em;
+}

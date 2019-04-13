@@ -64,16 +64,29 @@ class Kame::Remocon::Opal::AppView
     program = @program
     render_image = @state[:render_image]
     bg_color = @state[:bg_color]
+
     div do
-      h2(nil, 'タートルグラフィックスに挑戦！！')
-      Kame::Remocon::Opal::CanvasView.el(onMounted: -> canvas { mounted(canvas) }, render_image: render_image, bg_color: bg_color)
-      textarea({style: {width: "400px", height: "200px"}, ref: :program}, program)
-      input({type: :checkbox, checked: true, id: :wait, ref: :wait})
-      label({for: :wait}, "描く過程を表示する")
-      input({type: :checkbox, checked: true, id: :bg_color, ref: :bg_color, onClick: -> {set_background}})
-      label({for: :bg_color}, "黒背景")
-      button({onClick: -> { exec }, name: "exec"}, "実行する")
-      button({onClick: -> { create_image }, name: "create_image"}, "画像を作成")
+      h2(nil, "タートルグラフィックスに挑戦！！")
+      div do
+        Kame::Remocon::Opal::CanvasView.el(onMounted: -> canvas { mounted(canvas) }, render_image: render_image, bg_color: bg_color)
+        div({class: "wrap-code-text"}, textarea({style: {width: "400px", height: "400px"}, ref: :program}, program))
+      end
+      Hyalite.create_element(:p, {class: "exec-button"}, button({onClick: -> { exec }, name: "exec"}, "実行する"))
+
+      div do
+        h2(nil, "設定")
+        ul do
+          li do
+            input({type: :checkbox, checked: true, id: :wait, ref: :wait})
+            label({for: :wait}, "描く過程を表示する")
+          end
+          li do
+            input({type: :checkbox, checked: true, id: :bg_color, ref: :bg_color, onClick: -> {set_background}})
+            label({for: :bg_color}, "黒背景")
+          end
+        end
+        #button({onClick: -> { create_image }, name: "create_image"}, "画像を作成")
+      end
     end
   end
 end
