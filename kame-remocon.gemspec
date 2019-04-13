@@ -25,7 +25,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "sinatra", "~> 2.0"
   spec.add_dependency "thin", "~> 1.7"
-  spec.add_dependency "opal-haml", "~> 0.4"
   spec.add_dependency "hyalite", "~> 0.3"
   spec.add_dependency "rake", "~> 12.3"
   spec.add_dependency "haml", "~> 5.0"
