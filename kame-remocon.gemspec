@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir["lib/**/*"]
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "opal", "~> 0.11"
   spec.add_dependency "sinatra", "~> 2.0"
   spec.add_dependency "thin", "~> 1.7"
   spec.add_dependency "hyalite", "~> 0.3"
