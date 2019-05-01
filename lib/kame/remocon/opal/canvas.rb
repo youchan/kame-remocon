@@ -10,8 +10,7 @@ class Kame::Remocon::Opal::Canvas
   end
 
   def image_data
-    canvas = @native
-    `canvas.toDataURL()`.sub(/^.*,/, "")
+    `#@native.toDataURL()`.sub(/^.*,/, "")
   end
 
   class Context

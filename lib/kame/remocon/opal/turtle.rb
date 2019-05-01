@@ -4,6 +4,7 @@ require_relative "./image"
 
 class Kame::Remocon::Opal::Turtle
   attr_accessor :default_color
+  attr_reader :code
 
   class Pos
     attr_reader :x, :y
@@ -59,6 +60,10 @@ class Kame::Remocon::Opal::Turtle
     end
   end
 
+  def image_data
+    @canvas.image_data
+  end
+
   def draw_kame
     (x, y) = @pos.canvas_coordinate
 
@@ -70,15 +75,17 @@ class Kame::Remocon::Opal::Turtle
     @context.set_transform(1, 0, 0, 1, 0, 0)
   end
 
-  def exec(program, wait=0)
+  def exec(code, wait=0, &callback)
+    @code = code
     clear
     reset
     commander = Commander.new
-    commander.instance_eval program
-    exec_commands(commander.commands, wait: wait)
+    commander.instance_eval code
+    exec_commands(commander.commands, wait: wait, &callback)
   end
 
-  def exec_commands(commands, wait: nil)
+  def exec_commands(commands, wait: nil, &callback)
+    callback ||= Proc.new {}
     wait ||= @wait
     if wait > 0
       exec = Proc.new do
@@ -98,7 +105,10 @@ class Kame::Remocon::Opal::Turtle
       interval = wait * 1000
       %x(
         var timer = setInterval(function() {
-          if (!exec()) { clearInterval(timer); }
+          if (!exec()) {
+            callback.$call();
+            clearInterval(timer);
+          }
         }, interval);
       )
     else
@@ -109,9 +119,11 @@ class Kame::Remocon::Opal::Turtle
       end
       if @kame.complete
         draw_kame
+        callback.call
       else
         @kame.onload do
           draw_kame
+          callback.call
         end
       end
     end
