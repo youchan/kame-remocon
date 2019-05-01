@@ -33,7 +33,12 @@ class Kame::Remocon::Opal::AppView
     PROG
   end
 
+  def self.render(parent, &block)
+    Hyalite.render(Kame::Remocon::Opal::AppView.el(on_mounted: block), parent)
+  end
+
   def mounted(canvas)
+    @canvas = canvas
     @turtle = Kame::Remocon::Opal::Turtle.new(canvas)
     @turtle.exec @program
 
@@ -42,6 +47,8 @@ class Kame::Remocon::Opal::AppView
       DRb.start_service("ws://127.0.0.1:9292/callback")
       @remote.set_turtle DRb::DRbObject.new(@turtle)
     end
+
+    @props[:on_mounted].call(@canvas, @turtle, @remote)
   end
 
   def exec
@@ -51,7 +58,7 @@ class Kame::Remocon::Opal::AppView
   end
 
   def create_image
-    set_state(render_image: true)
+    image = @canvas.image_data
   end
 
   def set_background
@@ -64,6 +71,7 @@ class Kame::Remocon::Opal::AppView
     program = @program
     render_image = @state[:render_image]
     bg_color = @state[:bg_color]
+    image = @image
 
     div do
       div do
@@ -84,7 +92,10 @@ class Kame::Remocon::Opal::AppView
             label({for: :bg_color}, "黒背景")
           end
         end
-        #button({onClick: -> { create_image }, name: "create_image"}, "画像を作成")
+        button({onClick: -> { create_image }, name: "create_image"}, "画像を作成")
+        if image
+          img(src: image, style: {"background-color": bg_color})
+        end
       end
     end
   end

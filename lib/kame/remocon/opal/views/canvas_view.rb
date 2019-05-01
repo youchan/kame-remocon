@@ -23,9 +23,6 @@ class Kame::Remocon::Opal::CanvasView
 
     div({class: "wrap-canvas"}) do
       canvas(width: "400", height: "400", id: :canvas, ref: :canvas, style: {"background-color": bg_color})
-      if image
-        img(src: image, style: {"background-color": bg_color})
-      end
     end
   end
 end

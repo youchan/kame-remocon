@@ -9,6 +9,11 @@ class Kame::Remocon::Opal::Canvas
     Context.new `#@native.getContext(type)`
   end
 
+  def image_data
+    canvas = @native
+    `canvas.toDataURL()`.sub(/^.*,/, "")
+  end
+
   class Context
     include Native
     include Native::Helpers

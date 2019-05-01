@@ -16,9 +16,9 @@ def koch(length, depth)
   koch(length / 3, depth - 1)
 end
 
+move_to -100, -100
 depth = 3
 length = 200
-forward(100)
 pen_down
 4.times do
   turn_right(90)
