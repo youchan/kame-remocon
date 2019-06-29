@@ -171,7 +171,7 @@ class Kame::Remocon::Opal::Turtle
   end
 
   def color(color)
-    @path = Canvas::Path2D.new
+    @path = Kame::Remocon::Opal::Canvas::Path2D.new
     @path.move_to(*@pos.canvas_coordinate)
     @paths << [@path, color]
     nil
