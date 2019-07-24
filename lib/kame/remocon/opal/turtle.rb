@@ -1,6 +1,6 @@
 require "kame/remocon/commander"
 
-require_relative "./image"
+require_relative "image"
 
 class Kame::Remocon::Opal::Turtle
   attr_accessor :default_color
