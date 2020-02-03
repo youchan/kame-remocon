@@ -3,17 +3,17 @@ class Commander
 
   METHODS = [:clear, :reset, :pen_up, :pen_down, :color, :turn_left, :turn_right, :forward, :backward, :move_to]
 
-  def initialize(forward = nil)
-    if forward
-      @forward = forward
+  def initialize(executor = nil)
+    if executor
+      @executor = executor
     else
       @commands = []
     end
   end
 
   def <<(command)
-    if @forward
-      @forward.method(command.first).call(*command[1..-1])
+    if @executor
+      @executor.method(command.first).call(*command[1..-1])
     else
       @commands << command
     end
